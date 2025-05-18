@@ -1,0 +1,79 @@
+# Stromlaufplan (Konzept) für die Filmentwicklungsmaschine mit ESP32
+
+## ✅ Netzteil- und Stromverteilung
+
+### **Primärnetzteil (24 V DC, 10–12 A)**
+Versorgt:
+- 4x Schrittmotoren
+- Heizmatten / PTC-Heizelemente (Tank + Trockner)
+- Magnetventil / Pumpe
+
+Absicherung:
+- **Eingangssicherung:** 10 A (KFZ-Sicherung oder PTC)
+- **Einzelabsicherungen:**
+  - Stepper: 3 A PTC je Motor
+  - Heizung Tank: 5 A Sicherung
+  - Heizung Trockner: 5 A Sicherung
+  - Pumpe/Ventil: 1 A Sicherung
+
+### **Stepdown-Konverter (auf 5 V DC)**
+- MP1584 oder LM2596-Modul
+- Versorgung aus 24 V Zweig
+- Leistung: min. 3 A
+- GND gemeinsam mit 24 V Masse
+
+Versorgt:
+- ESP32
+- Nextion Display
+- Sensoren (z. B. Lichtschranken, Temperatursensoren)
+- Buzzer
+
+---
+
+## 🛋️ **ESP32 GPIO-Zuordnung (Beispiel)**
+
+| Funktion                | GPIO       | Kommentar                     |
+|------------------------|------------|-------------------------------|
+| Stepper Entwickler     | GPIO 16/17 | STEP/DIR                      |
+| Stepper Fixierer       | GPIO 18/19 | STEP/DIR                      |
+| Stepper Wasserbad      | GPIO 21/22 | STEP/DIR                      |
+| Stepper Trockner       | GPIO 25/26 | STEP/DIR                      |
+| Heizung Tank           | GPIO 33    | MOSFET oder SSR               |
+| Heizung Trockner       | GPIO 32    | MOSFET oder SSR               |
+| Magnetventil Wasser    | GPIO 14    | Relais                        |
+| Buzzer                 | GPIO 27    | Aktiver Buzzer                |
+| Film-Einzug Sensor     | GPIO 4     | Digital Input                 |
+| Tank-Sensoren          | GPIO 5/12/13/15/23 | Digitale Eingänge     |
+| Temp.-Sensor DS18B20   | GPIO 2     | 1-Wire Bus                    |
+| Nextion Display TX/RX  | TX: GPIO 1, RX: GPIO 3 | UART0 / UART2 empfohlen |
+
+---
+
+## ⚡ Lastkreise & MOSFETs
+
+Jede Heiz- oder Motorlast wird über einen eigenen Schalter:
+- Logic-Level MOSFET (IRLZ44N o.ä.) bei PWM/MOSFET-Steuerung
+- Oder SSR bei Netzspannung / induktiven Lasten
+
+MOSFET-Schaltung:
+- Gate: über 220 Ω an GPIO
+- Drain: an Last -
+- Source: an GND
+- Freilaufdiode bei Spulenlasten (z. B. Pumpen)
+
+---
+
+## 🔋 Empfehlungen zur Verkabelung
+
+- Alle 24 V Hauptleitungen ≥ 1.5 mm²
+- Alle 5 V-Leitungen: 0.25–0.5 mm²
+- Leitungen zu Sensoren abgeschirmt bei Bedarf
+- getrennte Masseführung für Leistung & Logic
+
+---
+
+## ✅ Optional
+
+- LED-Anzeige für Spannungszustand (24 V / 5 V)
+- Not-Aus-Schalter in Hauptleitung (Schütz)
+- Temperatur-Überwachung über Bimetall oder Software (Failsafe)
