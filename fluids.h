@@ -1,0 +1,1 @@
+//alles was mit Agitation, Chemie Regeneration, nach füllen, etc zu tun hat
