@@ -6,4 +6,7 @@ if (!isTankCompatible(currentProcess, detectTankType(TANK_ID_PIN_DEV))) {
   return;
 }
 
-startFilEinzug();
+if (isFilmInserted() && machineState == STATE_WAIT_FOR_FILM) {
+  logEvent("Film eingeführt – Leader erkannt");
+  startFilmEinzug();  // Transportlogik
+}
