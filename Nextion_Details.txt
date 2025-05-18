@@ -1,3 +1,68 @@
+---
+
+✅ Touch-Eingabe verarbeiten
+
+Jetzt kannst du einfach die Komponentennummern deiner Buttons auswerten:
+
+void handleTouch(byte page, byte component) {
+  if (page == 0 && component == 1) {
+    // Start-Button gedrückt
+    logEvent("Start-Button gedrückt");
+    startLeaderEinzug();
+  }
+  else if (page == 0 && component == 2) {
+    // Stop-Button gedrückt
+    logEvent("Notstopp");
+    emergencyStop();
+  }
+  else if (page == 2 && component == 1) {
+    // Wartungseintrag 1 bestätigen
+    acknowledgeMaintenance(0);
+  }
+}
+
+
+---
+
+✅ Was musst du im Nextion Editor tun?
+
+Für jeden Button:
+
+“Send Component ID” aktivieren (Touch Event)
+
+Optional: „Send Release Event“ oder „Send Press Event“ je nach Bedarf
+
+
+
+
+---
+
+✅ Zusammenfassung
+
+Mit dieser Touchlogik kannst du:
+
+alle Buttonklicks eindeutig erkennen
+
+wartungsfreundlich im Code verarbeiten
+
+das Ganze später als Mappingtabelle oder Switch-Case strukturieren
+
+
+
+---
+
+Möchtest du daraus eine touch.h machen, die du einfach einbinden kannst?
+
+
+
+
+
+
+
+
+
+
+
 Perfekt – dann kümmern wir uns jetzt um die Auswertung von Touch-Eingaben vom Nextion-Display am ESP32.
 
 
