@@ -1,3 +1,16 @@
+enum SystemState {
+  IDLE,
+  WAIT_FOR_FILM,
+  ADVANCE_TO_START,
+  DEVELOPER,
+  FIXER,
+  WASH,
+  DRY,
+  DONE,
+  ERROR
+};
+
+SystemState state = IDLE;
 
 
 if (!isTankCompatible(currentProcess, detectTankType(TANK_ID_PIN_DEV))) {
