@@ -16,7 +16,8 @@ MachineState machineState = STATE_IDLE;
 
 // Bewegung eines Abschnitts (z. B. Entwickler, Fixierer, etc.) void moveFilmThroughPhase(const String &phaseName, MachineState nextState) { logEvent("Transport durch " + phaseName); setText("t0", "Phase: " + phaseName);
 
-for (int i = 0; i < BATH_STEPS; i++) { digitalWrite(STEPPER_DEV_STEP, HIGH); delayMicroseconds(800); digitalWrite(STEPPER_DEV_STEP, LOW); delayMicroseconds(800); }
+for (int i = 0; i < BATH_STEPS; i++) { digitalWrite(STEPPER_DEV_STEP, HIGH); delayMicroseconds(800); digitalWrite(STEPPER_DEV_STEP, LOW); delayMicroseconds(800); //hier müssen die Bathsteps noch zum developer_load hinzugefügt werden!!
+}
 
 machineState = nextState; }
 
